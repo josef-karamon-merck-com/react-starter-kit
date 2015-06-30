@@ -15,6 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "lodash": "^3.10.0",
+    "alt": "^0.16.10",
     "react": "~0.13.0"
   },
   "devDependencies": {

@@ -2,6 +2,8 @@
 
 import React from 'react';
 import Header from '../Header';
+import connectToStores from 'alt/utils/connectToStores';
+import ArticlesStore from '../../domain/articles/store';
 
 /**
  * Import locally scoped styles using css-loader
@@ -11,7 +13,17 @@ import Header from '../Header';
  */
 import styles from './style.sass';
 
+@connectToStores
 export default class Application extends React.Component {
+
+  static getStores() {
+    return [ArticlesStore];
+  }
+
+  static getPropsFromStores() {
+    return ArticlesStore.getState();
+  }
+
   render() {
     return (<div className={styles.main}>
       <div className={styles.wrap}>
