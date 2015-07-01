@@ -3,8 +3,9 @@
 import React from 'react';
 import Header from '../Header';
 import connectToStores from 'alt/utils/connectToStores';
-import TodosStore from '../../domain/todos/store';
-import TodosList from '../../domain/todos/TodosList.react.js';
+import TodoStore from '../../domain/todos/store';
+import TodoList from '../../domain/todos/TodoList.react';
+import TodoActions from '../../domain/todos/actions';
 
 /**
  * Import locally scoped styles using css-loader
@@ -19,11 +20,18 @@ import styles from './style.sass';
 export default class Application extends React.Component {
 
   static getStores() {
-    return [TodosStore];
+    return [TodoStore];
   }
 
   static getPropsFromStores() {
-    return TodosStore.getState();
+    return TodoStore.getState();
+  }
+
+  /**
+   * Event handler to mark all TODOs as complete
+   */
+  _onToggleCompleteAll = () => {
+    TodoActions.toggleCompleteAll();
   }
 
   render() {
@@ -33,7 +41,15 @@ export default class Application extends React.Component {
         <Header />
 
         <main className={styles.body}>
-          <TodosList todos={this.props.todos} />
+          <input
+            id="toggle-all"
+            type="checkbox"
+            onChange={this._onToggleCompleteAll}
+            checked={this.props.areAllComplete ? 'checked' : ''}
+          />
+          <label htmlFor="toggle-all">Mark all as complete</label>
+          <TodoList todos={this.props.todos} />
+
           <br />
           <p>For more information, see the <a href="https://github.com/bradleyboy/yarsk#yarsk">Readme</a>.</p>
         </main>

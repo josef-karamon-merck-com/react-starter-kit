@@ -1,80 +1,89 @@
 import alt from '../../alt';
-import TodosActions from './actions';
+import TodoActions from './actions';
+import _ from 'lodash';
 
-class TodosStore {
+
+const todoStore = alt.createStore(class TodoStore {
   constructor() {
-    this.bindActions(TodosActions);
+    this.bindActions(TodoActions);
 
     this.todos = {};
+
+    this.dispatcher.register(function (payload) {
+      // debugging
+      console.log(payload);
+    });
+
+    this.exportPublicMethods({
+      areAllComplete: this.areAllComplete
+    });
   }
 
   update(id, updates) {
     if(this.todos[id] && updates){
-      this.todos[id] = merge(this.todos[id], updates)
+      this.todos[id] = _.merge(this.todos[id], updates);
     }
   }
 
   updateAll(updates) {
-    for (var id in this.todos) {
-      this.update(id, updates)
-    }
+    _.forEach(this.todos, (todo, id) => {
+      this.update(id, updates);
+    });
   }
 
   onCreate(text) {
-    text = text.trim()
+    text = text.trim();
     if (text === '') {
-      return false
+      return false;
     }
-    // hand waving of course.
-    var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36)
+
+    const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     this.todos[id] = {
       id: id,
       complete: false,
       text: text
-    }
+    };
   }
 
   onUpdateText(x) {
-    var { id, text } = x
+    let { id, text } = x;
 
-    text = text ? text.trim() : ''
+    text = text ? text.trim() : '';
     if (text === '') {
-      return false
+      return false;
     }
-    this.update(id, { text })
+    this.update(id, { text });
   }
 
   onToggleComplete(id) {
-    var complete = !this.todos[id].complete
-    this.update(id, { complete })
+    const complete = !this.todos[id].complete;
+    this.update(id, { complete });
   }
 
   onToggleCompleteAll() {
-    var complete = !todoStore.areAllComplete()
-    this.updateAll({ complete })
+    const complete = !todoStore.areAllComplete();
+    this.updateAll({ complete });
   }
 
   onDestroy(id) {
-    delete this.todos[id]
+    delete this.todos[id];
   }
 
   onDestroyCompleted() {
-    for (var id in this.todos) {
-      if (this.todos[id].complete) {
-        this.onDestroy(id)
-      }
-    }
+    _.forEach(this.todos, (todo, id) => {
+      if (todo.complete) { this.onDestroy(id); }
+    });
   }
 
-  static areAllComplete() {
-    var { todos } = this.getState()
-    for (var id in todos) {
+  areAllComplete() {
+    const { todos } = this.getState();
+    for (let id in todos) {
       if (!todos[id].complete) {
-        return false
+        return false;
       }
     }
-    return true
+    return true;
   }
-}
+});
 
-export default alt.createStore(TodosStore);
+export default todoStore;

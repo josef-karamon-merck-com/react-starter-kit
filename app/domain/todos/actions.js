@@ -1,6 +1,6 @@
 import alt from '../../alt';
 
-class TodosActions {
+class TodoActions {
   constructor() {
     this.generateActions(
       'create',
@@ -13,4 +13,4 @@ class TodosActions {
   }
 }
 
-export default alt.createActions(TodosActions);
+export default alt.createActions(TodoActions);

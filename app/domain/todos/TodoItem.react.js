@@ -1,47 +1,28 @@
-/**
- * Copyright (c) 2014, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * @jsx React.DOM
- */
+/* @flow */
 
-var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var TodoActions = require('../actions/TodoActions');
-var TodoTextInput = require('./TodoTextInput.react');
+import React from 'react';
+import TodoActions from './actions';
+import TodoTextInput from './TodoTextInput.react';
 
-var cx = require('react/lib/cx');
 
-var TodoItem = React.createClass({
+export default class extends React.Component {
 
-  propTypes: {
-   todo: ReactPropTypes.object.isRequired
-  },
+  constructor(props) {
+    super(props);
+    this.state = { isEditing: false };
+  }
 
-  getInitialState: function() {
-    return {
-      isEditing: false
-    };
-  },
+  render() {
+    const todo = this.props.todo;
 
-  /**
-   * @return {object}
-   */
-  render: function() {
-    var todo = this.props.todo;
-
-    var input;
+    let input;
     if (this.state.isEditing) {
-      input =
+      input = (
         <TodoTextInput
           className="edit"
           onSave={this._onSave}
           value={todo.text}
-        />;
+        />);
     }
 
     // List items should get the class 'editing' when editing
@@ -51,10 +32,7 @@ var TodoItem = React.createClass({
     // in the naming of view actions toggleComplete() vs. destroyCompleted().
     return (
       <li
-        className={cx({
-          'completed': todo.complete,
-          'editing': this.state.isEditing
-        })}
+        className={`${todo.complete ? 'completed' : ''} ${this.state.isEditing ? 'editing' : ''}`}
         key={todo.id}>
         <div className="view">
           <input
@@ -71,15 +49,15 @@ var TodoItem = React.createClass({
         {input}
       </li>
     );
-  },
+  }
 
-  _onToggleComplete: function() {
+  _onToggleComplete = () => {
     TodoActions.toggleComplete(this.props.todo.id);
-  },
+  }
 
-  _onDoubleClick: function() {
+  _onDoubleClick = () => {
     this.setState({isEditing: true});
-  },
+  }
 
   /**
    * Event handler called within TodoTextInput.
@@ -87,18 +65,15 @@ var TodoItem = React.createClass({
    * in different ways.
    * @param  {string} text
    */
-  _onSave: function(text) {
+  _onSave = (text) => {
     TodoActions.updateText({
       id: this.props.todo.id,
       text: text
     });
     this.setState({isEditing: false});
-  },
-
-  _onDestroyClick: function() {
-    TodoActions.destroy(this.props.todo.id);
   }
 
-});
-
-module.exports = TodoItem;
+  _onDestroyClick = () => {
+    TodoActions.destroy(this.props.todo.id);
+  }
+}
