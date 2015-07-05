@@ -1,19 +1,18 @@
 /* @flow */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 
 const ENTER_KEY_CODE = 13;
 
 export default class extends React.Component {
 
-  // static propTypes = {
-  //   className: ReactPropTypes.string,
-  //   id: ReactPropTypes.string,
-  //   placeholder: ReactPropTypes.string,
-  //   onSave: ReactPropTypes.func.isRequired,
-  //   value: ReactPropTypes.string
-  // }
+  static propTypes = {
+    id: PropTypes.string,
+    placeholder: PropTypes.string,
+    onSave: PropTypes.func.isRequired,
+    value: PropTypes.string
+  }
 
   constructor(props) {
     super(props);
@@ -23,7 +22,6 @@ export default class extends React.Component {
   render() {
     return (
       <input
-        className={this.props.className}
         id={this.props.id}
         placeholder={this.props.placeholder}
         onBlur={this._save}

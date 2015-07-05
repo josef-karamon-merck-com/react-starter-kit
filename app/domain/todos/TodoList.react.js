@@ -20,7 +20,7 @@ export default class TodoList {
     // and shown when there are todos.
     if (_.size(this.props.todos) < 1) { return null; }
 
-    const todos = _.map((todo, key) => <TodoItem key={key} todo={todo} />);
+    const todos = _.map(this.props.todos, (todo, key) => <TodoItem key={key} todo={todo} />);
 
     return (
       <ul id="todo-list">{todos}</ul>

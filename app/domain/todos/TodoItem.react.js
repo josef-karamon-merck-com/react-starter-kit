@@ -44,7 +44,7 @@ export default class extends React.Component {
           <label onDoubleClick={this._onDoubleClick}>
             {todo.text}
           </label>
-          <button className="destroy" onClick={this._onDestroyClick} />
+          <button className="destroy" onClick={this._onDestroyClick}>x</button>
         </div>
         {input}
       </li>
