@@ -1,10 +1,18 @@
-// IMPORTANT: This needs to be first (before any other components)
-// to get around CSS order randomness in webpack.
 import './css/base.sass';
 
-// require("babel/polyfill");
-
 import React from 'react';
-import Application from './components/Application';
+import Router from 'react-router';
+import BrowserHistory from 'react-router/lib/BrowserHistory';
+import { Provider } from 'redux/react';
 
-React.render(<Application />, document.getElementById('app'));
+import routes from './routes';
+import redux from './redux';
+
+const history = new BrowserHistory();
+
+const element = (
+  <Provider redux={redux}>
+    {() => <Router history={history} routes={routes} /> }
+  </Provider>
+);
+React.render(element, document.getElementById('app'));

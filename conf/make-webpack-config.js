@@ -35,6 +35,7 @@ module.exports = function(options) {
       path: options.production ? './dist' : './build',
       publicPath: options.production ? '' : 'http://localhost:3000/',
       filename: options.production ? 'app.[hash].js' : 'app.js',
+      sourceMapFilename: '[file].map',
     },
     module: {
       preLoaders: options.lint ? [
@@ -91,6 +92,7 @@ module.exports = function(options) {
     },
     resolve: {
       extensions: ['', '.js', '.jsx', '.sass', '.scss', '.less', '.css'],
+      modulesDirectories: ['node_modules', 'app'],
     },
     plugins: options.production ? [
       // Important to keep React file size down
