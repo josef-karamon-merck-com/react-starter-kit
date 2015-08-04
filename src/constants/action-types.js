@@ -1,0 +1,7 @@
+
+
+export default {
+  FETCH_MY_DOCUMENTS: 'FETCH_MY_DOCUMENTS',
+  AUTH_O365_API: 'AUTH_O365_API'
+};
+

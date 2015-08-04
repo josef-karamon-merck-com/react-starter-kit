@@ -3,7 +3,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-
+var nodeModulesPath = path.join(__dirname, '../node_modules');
+var jsRootPath = path.join(__dirname, '../src');
 
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
@@ -112,6 +113,7 @@ module.exports = function(options) {
     },
     resolve: {
       extensions: ['', '.js', '.jsx', '.sass', '.scss', '.less', '.css'],
+      root: [ nodeModulesPath, jsRootPath ]
     },
     devServer: {
       // host: hostname,
