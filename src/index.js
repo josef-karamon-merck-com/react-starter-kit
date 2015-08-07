@@ -8,10 +8,10 @@ import { Router, Route } from 'react-router';
 import History from 'react-router/lib/BrowserHistory';
 import { reduxRouteComponent } from 'redux-react-router';
 import { Provider as ReduxProvider } from 'react-redux';
-//import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 import { store } from './redux';
-import { Layout, AboutPage, MyDocumentsPage, HomePage } from './pages';
+import { Layout, AboutPage, MyFilesPage, HomePage, FilePreviewPage } from './pages';
+import { sessionSettings } from 'utils';
 
 const history = new History();
 
@@ -31,8 +31,9 @@ function urlToArray(urlHash) {
 function oauthCallbackEntered() {
   const data = urlToArray(window.location.hash.replace(/^#/, ''));
   const token = data.access_token;
-  sessionStorage.setItem('O365_ACCESS_TOKEN', token);
+  sessionSettings.o365Token = token;
   console.log(token);
+  window.location = '/my-files';
 }
 
 
@@ -47,7 +48,8 @@ class App extends Component {
                 <Route component={reduxRouteComponent(store)}>
                   <Route component={Layout} >
                     <Route path="/" component={HomePage} />
-                    <Route path="my-documents" component={MyDocumentsPage} />
+                    <Route path="my-files" component={MyFilesPage} />
+                    <Route name="file-preview" path="file/:id/preview" component={FilePreviewPage} />
                     <Route path="about" component={AboutPage} />
                     <Route path="/auth/callback/*" onEnter={oauthCallbackEntered} />
                   </Route>
@@ -56,6 +58,7 @@ class App extends Component {
             );
           }}
         </ReduxProvider>
+
       </div>
     );
   }

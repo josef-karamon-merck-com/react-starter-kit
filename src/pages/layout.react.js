@@ -19,7 +19,7 @@ export default class Layout extends Component {
             </div>
             <div id="navbar" className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
-                <li><Link to="/my-documents">My Documents</Link></li>
+                <li><Link to="/my-files">My Documents</Link></li>
                 <li><Link to="/about">About</Link></li>
               </ul>
             </div>
