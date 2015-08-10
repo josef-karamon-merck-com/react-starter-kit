@@ -3,7 +3,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-
+var nodeModulesPath = path.join(__dirname, '../node_modules');
+var jsRootPath = path.join(__dirname, '../src');
 
 function extractForProduction(loaders) {
   return ExtractTextPlugin.extract('style', loaders.substr(loaders.indexOf('!')));
@@ -28,14 +29,15 @@ module.exports = function(options) {
   var jsLoaders = ['babel'];
 
   return {
-    entry: './app/index.js',
+    entry: ['webpack/hot/dev-server', './src/index.js'],
     debug: !options.production,
     devtool: options.devtool,
     output: {
       path: options.production ? './dist' : './build',
-      publicPath: options.production ? '' : 'http://localhost:3000/',
+      publicPath: options.production ? '' : 'http://localhost:3001/',
       filename: options.production ? 'app.[hash].js' : 'app.js',
     },
+    watchOptions: {poll: 100},
     module: {
       preLoaders: options.lint ? [
         {
@@ -87,10 +89,39 @@ module.exports = function(options) {
           test: /\.jpg$/,
           loader: 'file',
         },
+        {
+          test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url?limit=10000&minetype=application/font-woff'
+        },
+        {
+          test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url?limit=10000&minetype=application/font-woff'
+        },
+        {
+          test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url?limit=10000&minetype=application/octet-stream'
+        },
+        {
+          test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'file'
+        },
+        {
+          test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+          loader: 'url?limit=10000&minetype=image/svg+xml'
+        }
       ],
     },
     resolve: {
       extensions: ['', '.js', '.jsx', '.sass', '.scss', '.less', '.css'],
+      root: [ nodeModulesPath, jsRootPath ]
+    },
+    devServer: {
+      // host: hostname,
+      port: 3001,
+      historyApiFallback: true,
+      proxy: {
+        '/api/*': 'http://stg-api.sync2.merck.com'
+      }
     },
     plugins: options.production ? [
       // Important to keep React file size down
