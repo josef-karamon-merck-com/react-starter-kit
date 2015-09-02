@@ -12,6 +12,7 @@ export default class MyFiles extends Component {
     this.props.actions.getMyFiles(`/${folderId}/children`);
   }
   parentClicked(folderId) {
+    console.log(folderId);
     this.props.actions.getMyFiles('/');
   }
   previewFile(file) {

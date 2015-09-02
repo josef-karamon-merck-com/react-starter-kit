@@ -34,7 +34,7 @@ module.exports = function(options) {
     devtool: options.devtool,
     output: {
       path: options.production ? './dist' : './build',
-      publicPath: options.production ? '' : 'http://localhost:3001/',
+      publicPath: '/',
       filename: options.production ? 'app.[hash].js' : 'app.js',
     },
     watchOptions: {poll: 100},
@@ -116,12 +116,10 @@ module.exports = function(options) {
       root: [ nodeModulesPath, jsRootPath ]
     },
     devServer: {
-      // host: hostname,
       port: 3001,
       historyApiFallback: true,
-      proxy: {
-        '/api/*': 'http://stg-api.sync2.merck.com'
-      }
+      host: 'sync3.merck.com',
+      https: true
     },
     plugins: options.production ? [
       // Important to keep React file size down
