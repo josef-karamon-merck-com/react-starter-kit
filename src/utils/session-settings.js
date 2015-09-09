@@ -1,5 +1,11 @@
+import keyMirror from 'keymirror';
+
 let settings = {};
-const O365_ACCESS_TOKEN = 'O365_ACCESS_TOKEN';
+
+const keys = keyMirror({
+  SHAREPOINT_ACCESS_TOKEN: null,
+  RETURN_URL: null
+});
 
 const storage = sessionStorage;
 
@@ -13,9 +19,13 @@ function setOrRemove(key, val) {
 }
 
 Object.defineProperties(settings, {
-  o365Token: {
-    get: ()=> storage.getItem(O365_ACCESS_TOKEN),
-    set: (value)=> setOrRemove(O365_ACCESS_TOKEN, value)
+  sharePointToken: {
+    get: ()=> storage.getItem(keys.SHAREPOINT_ACCESS_TOKEN),
+    set: (value)=> setOrRemove(keys.SHAREPOINT_ACCESS_TOKEN, value)
+  },
+  returnUrl: {
+    get: ()=> storage.getItem(keys.RETURN_URL),
+    set: (value)=> setOrRemove(keys.RETURN_URL, value)
   }
 });
 

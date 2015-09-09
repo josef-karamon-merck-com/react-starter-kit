@@ -118,8 +118,8 @@ module.exports = function(options) {
     devServer: {
       port: 3001,
       historyApiFallback: true,
-      host: 'sync3.merck.com',
-      https: true
+      host: 'localhost',
+      https: false
     },
     plugins: options.production ? [
       // Important to keep React file size down

@@ -3,8 +3,8 @@ import { FileList } from 'components';
 import { fetchOnUpdate } from 'decorators';
 
 
-@fetchOnUpdate([], (params, actions) => {
-  actions.getSharePointFiles('/Shared%20Documents');
+@fetchOnUpdate(['path'], (params, actions) => {
+  actions.getSharePointFiles(params.path);
 })
 export default class SharePointFiles extends Component {
   previewFile(file) {

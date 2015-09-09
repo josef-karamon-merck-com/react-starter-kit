@@ -1,14 +1,21 @@
 import { ActionTypes } from 'constants';
-import { O365API } from 'api';
+import { SharePointAPI } from 'api';
 
 
-
-
-export default function getSharePointFiles(path)
+export function getSharePointFiles(path)
 {
   return {
-    types: [ActionTypes.FETCH_SHAREPOINT_FILES_REQUEST, ActionTypes.FETCH_SHAREPOINT_FILES_SUCCESS, ActionTypes.FETCH_SHAREPOINT_FILES_FAILURE],
-    apiPromise: O365API.getSharePointFiles(path)
+    type: ActionTypes.FETCH_SHAREPOINT_FILES,
+    apiPromise: SharePointAPI.getSharePointFiles(path)
+  };
+}
+
+
+export function deleteSharePointFile(path)
+{
+  return {
+    type: ActionTypes.DELETE_SHAREPOINT_FILE,
+      apiPromise: SharePointAPI.deleteSharePointFile(path)
   };
 }
 

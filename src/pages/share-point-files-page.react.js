@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { SharePointFiles } from 'components';
-import * as actionCreators from 'action-creators';
+import * as actionCreators from 'action-creators/share-point-files';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ export default class SharePointFilesPage extends Component {
     const actions = bindActionCreators(actionCreators, dispatch);
     return (
       <div>
-        <SharePointFiles actions={actions} {...this.props} />
+        <SharePointFiles actions={actions} params={this.props.routeParams} {...this.props} />
       </div>
     );
   }

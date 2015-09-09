@@ -2,12 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 //import { devTools, persistState } from 'redux-devtools';
 import { routerStateReducer } from 'redux-react-router';
 import * as reducers from 'reducers';
-import { o365APIMiddleware } from 'middlewares';
+import { apiMiddleware } from 'middlewares';
 
 
 const finalReducers = {...reducers, router: routerStateReducer};
 
-let createPromiseStore = applyMiddleware(o365APIMiddleware)(createStore);
+let createPromiseStore = applyMiddleware(apiMiddleware)(createStore);
 
 // compose middlewares
 
