@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 
-@connect(state => state)
+@connect(state => state.sharePointFiles.toJS())
 export default class SharePointFilesPage extends Component {
 
   static propTypes = {

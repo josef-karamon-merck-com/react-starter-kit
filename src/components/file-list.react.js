@@ -5,7 +5,9 @@ export default class FileList extends Component {
   static propTypes = {
     folderClicked: PropTypes.func.isRequired,
     parentClicked: PropTypes.func.isRequired,
-    previewFile: PropTypes.func.isRequired
+    previewFile: PropTypes.func.isRequired,
+    fullPreviewFile: PropTypes.func.isRequired,
+    deleteFile: PropTypes.func.isRequired
   }
 
   renderParentReference() {
@@ -30,6 +32,10 @@ export default class FileList extends Component {
         <a onClick={this.props.previewFile.bind(this, file)}>
           {file.name} {file.size}
         </a>
+        <span>
+          <a onClick={this.props.fullPreviewFile.bind(this, file)}>Full Preview</a>
+          <a onClick={this.props.deleteFile.bind(this, file)}>Delete</a>
+        </span>
       </li>
     );
   }
